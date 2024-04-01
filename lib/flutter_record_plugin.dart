@@ -50,12 +50,12 @@ class FlutterRecordPlugin {
   static Future<Recording> stop() async {
     Map<String, Object> response =
     Map.from(await _channel.invokeMethod('stop'));
-    Recording recording = Recording(
-        duration: Duration(milliseconds: response['duration'] as int),
-        path: response['path'] as String,
+    Recording recording = new Recording(
+        duration: new Duration(milliseconds:int.parse(response['duration'].toString()) ),
+        path: response['path'].toString(),
         audioOutputFormat:
-        _convertStringInAudioOutputFormat(response['audioOutputFormat'] as String),
-        extension: response['audioOutputFormat'] as String);
+        _convertStringInAudioOutputFormat(response['audioOutputFormat'].toString()),
+        extension: response['audioOutputFormat'].toString());
     return recording;
   }
 
@@ -69,7 +69,7 @@ class FlutterRecordPlugin {
     return hasPermission;
   }
 
-  static AudioOutputFormat? _convertStringInAudioOutputFormat(String extension) {
+  static AudioOutputFormat _convertStringInAudioOutputFormat(String extension) {
     switch (extension) {
       case ".wav":
         return AudioOutputFormat.WAV;
@@ -78,7 +78,7 @@ class FlutterRecordPlugin {
       case ".m4a":
         return AudioOutputFormat.AAC;
       default:
-        return null;
+        return AudioOutputFormat.AAC;
     }
   }
 

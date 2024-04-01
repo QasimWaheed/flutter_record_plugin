@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_record_plugin/flutter_record_plugin.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('flutter_record_plugin');
