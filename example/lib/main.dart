@@ -21,12 +21,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Plugin audio recorder'),
+    return new MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Plugin audio recorder'),
         ),
-        body: AppBody(),
+        body: new AppBody(),
       ),
     );
   }
@@ -60,14 +60,14 @@ class AppBodyState extends State<AppBody> {
                 onPressed: _isRecording ? _start : _start,
                 child: Text("Start"),
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
+                    backgroundColor: Colors.green,
                 ),
               ),
               TextButton(
                 onPressed: _isRecording ? _stop : _stop,
                 child: Text("Stop"),
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.red,
+                  backgroundColor: Colors.red,
                 ),
               ),
               TextField(
@@ -89,7 +89,7 @@ class AppBodyState extends State<AppBody> {
   _start() async {
     try {
       if (await FlutterRecordPlugin.hasPermissions) {
-        if (_controller.text != null && _controller.text != "") {
+        if (_controller.text.trim().isNotEmpty) {
           String path = _controller.text;
           if (!_controller.text.contains('/')) {
             io.Directory appDocDirectory =
@@ -112,7 +112,7 @@ class AppBodyState extends State<AppBody> {
 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(content: Text("You must accept permissions")));
+            SnackBar(content: Text("You must accept permissions")));
 
         requestPermission();
       }
@@ -124,18 +124,19 @@ class AppBodyState extends State<AppBody> {
   Future requestPermission() async {
 
     // 申请权限
-    Map<Permission, PermissionStatus> permissions = await [
-      Permission.microphone,
+
+    Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
+      Permission.microphone,
     ].request();
 
     // 申请结果
 
-    PermissionStatus permission = await Permission.storage.status;
 
-    if (permission == PermissionStatus.granted) {
 
-       // Fluttertoast.showToast(msg: "权限申请通过");
+    if (statuses[Permission.storage] == PermissionStatus.granted) {
+
+      //  Fluttertoast.showToast(msg: "权限申请通过");
 
     } else {
 
